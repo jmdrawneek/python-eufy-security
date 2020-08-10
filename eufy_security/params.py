@@ -32,6 +32,11 @@ class CameraParameters():
         self.recording_quality = None
         self.stream_quality = None
 
+        self.microphone_switch = None
+        self.audio_recording = None
+        self.speaker_switch = None
+        self.speaker_volume = None
+
         self.snoozed_at = None
         self.snooze_mode = None
 

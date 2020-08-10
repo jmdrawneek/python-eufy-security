@@ -190,6 +190,34 @@ class Camera:
         """Set streaming quality"""
         await self.async_set_params({self.camera_parameters.stream_quality: streaming_video_quality.value})
 
+    async def async_turn_microphone_on(self):
+        """Turn the device microphone ON"""
+        await self.async_set_params({self.camera_parameters.microphone_switch: 1})
+
+    async def async_turn_microphone_off(self):
+        """Turn the device microphone OFF"""
+        await self.async_set_params({self.camera_parameters.microphone_switch: 0})
+
+    async def async_turn_audio_recording_on(self):
+        """Turn the device audio recording ON"""
+        await self.async_set_params({self.camera_parameters.audio_recording: 1})
+
+    async def async_turn_audio_recording_off(self):
+        """Turn the device audio recording OFF"""
+        await self.async_set_params({self.camera_parameters.audio_recording: 0})
+
+    async def async_turn_speaker_on(self):
+        """Turn the device speaker ON"""
+        await self.async_set_params({self.camera_parameters.speaker_switch: 1})
+
+    async def async_turn_speaker_off(self):
+        """Turn the device speaker OFF"""
+        await self.async_set_params({self.camera_parameters.speaker_switch: 0})
+
+    async def async_set_speaker_volume(self, volume):
+        """Set the volume of the device speaker"""
+        await self.async_set_params({self.camera_parameters.speaker_volume: volume})
+
     async def async_stop_stream(self) -> None:
         """Stop the camera stream."""
         await self._api.request(

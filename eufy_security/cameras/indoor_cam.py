@@ -23,5 +23,10 @@ class IndoorCamParameters(CameraParameters):
         self.recording_quality = 2034
         self.stream_quality = 2031
 
+        self.microphone_switch = 1240
+        self.audio_recording = 6012
+        self.speaker_switch = 1241
+        self.speaker_volume = 1230
+
         self.snoozed_at = 2037
         self.snooze_mode = 1271
