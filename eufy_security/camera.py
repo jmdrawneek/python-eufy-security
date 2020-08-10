@@ -182,6 +182,14 @@ class Camera:
         await self.async_set_params({self.camera_parameters.snoozed_at: int(datetime.datetime.now().timestamp())})
         await self.async_set_params({self.camera_parameters.snooze_mode: {"account_id": self._api.user_id, "snooze_time": seconds_to_snooze}})
 
+    async def async_set_recording_video_quality(self, recording_video_quality):
+        """Set recording video quality"""
+        await self.async_set_params({self.camera_parameters.recording_quality: recording_video_quality.value})
+
+    async def async_set_streaming_video_quality(self, streaming_video_quality):
+        """Set streaming quality"""
+        await self.async_set_params({self.camera_parameters.stream_quality: streaming_video_quality.value})
+
     async def async_stop_stream(self) -> None:
         """Stop the camera stream."""
         await self._api.request(

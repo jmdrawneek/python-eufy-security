@@ -20,5 +20,8 @@ class IndoorCamParameters(CameraParameters):
         self.sound_detection_sensitivity = 6044
         self.sound_detection_type = 6046
 
+        self.recording_quality = 2034
+        self.stream_quality = 2031
+
         self.snoozed_at = 2037
         self.snooze_mode = 1271

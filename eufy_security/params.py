@@ -29,7 +29,8 @@ class CameraParameters():
         self.sound_detection_type = None
         self.sound_detection_sensitivity = None
 
-        self.video_quality = None
+        self.recording_quality = None
+        self.stream_quality = None
 
         self.snoozed_at = None
         self.snooze_mode = None
