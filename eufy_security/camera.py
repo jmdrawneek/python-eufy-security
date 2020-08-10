@@ -111,20 +111,6 @@ class Camera:
         )
         await self.async_update()
 
-    async def async_start_stream(self) -> str:
-        """Start the camera stream and return the RTSP URL."""
-        start_resp = await self._api.request(
-            "post",
-            "web/equipment/start_stream",
-            json={
-                "device_sn": self.serial,
-                "station_sn": self.station_serial,
-                "proto": 2,
-            },
-        )
-
-        return start_resp["data"]["url"]
-
     async def async_status_led_on(self):
         """Turn Status LED ON"""
         await self.async_set_params({self.camera_parameters.status_led: 1})
@@ -263,6 +249,24 @@ class Camera:
         on my indoor cam 2k, oneplus 6t, the zones coords went y:0-432, x:0-768, we need to check if they're universal
         """
         await self.async_set_params({self.camera_parameters.activity_zones: activity_zones})
+
+    async def async_set_watermark(self, watermark):
+        """Set the watermark type"""
+        await self.async_set_params({self.camera_parameters.watermark: watermark.value})
+
+    async def async_start_stream(self) -> str:
+        """Start the camera stream and return the RTSP URL."""
+        start_resp = await self._api.request(
+            "post",
+            "web/equipment/start_stream",
+            json={
+                "device_sn": self.serial,
+                "station_sn": self.station_serial,
+                "proto": 2,
+            },
+        )
+
+        return start_resp["data"]["url"]
 
     async def async_stop_stream(self) -> None:
         """Stop the camera stream."""

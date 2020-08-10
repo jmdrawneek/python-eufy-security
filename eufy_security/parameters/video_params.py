@@ -16,3 +16,9 @@ class StreamQuality(Enum):
 class ContinuousRecordingType(Enum):
     TWENTY_FOUR_SEVEN = 0
     SCHEDULE = 1
+
+
+class WaterMark(Enum):
+    OFF = 2
+    TIMESTAMP = 0
+    TIMESTAMP_AND_LOGO = 1
