@@ -31,5 +31,7 @@ class IndoorCamParameters(CameraParameters):
         self.continuous_recording_switch = 6010
         self.continuous_recording_type = 6011
 
+        self.pet_command = 6047
+
         self.snoozed_at = 2037
         self.snooze_mode = 1271

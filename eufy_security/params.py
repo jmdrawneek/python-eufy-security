@@ -40,6 +40,8 @@ class CameraParameters():
         self.continuous_recording_switch = None
         self.continuous_recording_type = None
 
+        self.pet_command = None
+
         self.snoozed_at = None
         self.snooze_mode = None
 

@@ -230,6 +230,14 @@ class Camera:
         """Set the type of continuous recording"""
         await self.async_set_params({self.camera_parameters.continuous_recording_type: recording_type.value})
 
+    async def async_set_pet_command_on(self):
+        """Turn the Pet Command feature ON"""
+        await self.async_set_params({self.camera_parameters.pet_command: 1})
+
+    async def async_set_pet_command_off(self):
+        """Turn the Pet Command feature OFF"""
+        await self.async_set_params({self.camera_parameters.pet_command: 0})
+
     async def async_stop_stream(self) -> None:
         """Stop the camera stream."""
         await self._api.request(
