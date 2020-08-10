@@ -238,6 +238,10 @@ class Camera:
         """Turn the Pet Command feature OFF"""
         await self.async_set_params({self.camera_parameters.pet_command: 0})
 
+    async def async_set_pet_command_auto_respond(self, value):
+        """Set the Pet Command auto respond, not sure yet how to GET the values that you set in the EufySecurity app"""
+        await self.async_set_params({self.camera_parameters.pet_command_auto_respond: value})
+
     async def async_stop_stream(self) -> None:
         """Stop the camera stream."""
         await self._api.request(
