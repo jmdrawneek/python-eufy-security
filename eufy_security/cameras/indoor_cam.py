@@ -37,5 +37,12 @@ class IndoorCamParameters(CameraParameters):
 
         self.activity_zones = 6042
 
+        self.person_notification = 6022
+        self.pet_notification = 6026
+        self.other_motion_notification = 6023
+        self.crying_notification = 6024
+        self.all_sound_notification = 6025
+
+
         self.snoozed_at = 2037
         self.snooze_mode = 1271

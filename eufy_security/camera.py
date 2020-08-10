@@ -254,6 +254,26 @@ class Camera:
         """Set the watermark type"""
         await self.async_set_params({self.camera_parameters.watermark: watermark.value})
 
+    async def async_set_person_notification_switch(self, state):
+        """Set the person notification to ON/OFF"""
+        await self.async_set_params({self.camera_parameters.person_notification: state.value})
+
+    async def async_set_pet_notification_switch(self, state):
+        """Set the pet notification to ON/OFF"""
+        await self.async_set_params({self.camera_parameters.pet_notification: state.value})
+
+    async def async_set_other_motion_notification_switch(self, state):
+        """Set the other motion notification to ON/OFF"""
+        await self.async_set_params({self.camera_parameters.other_motion_notification: state.value})
+
+    async def async_set_crying_notification_switch(self, state):
+        """Set the crying notification to ON/OFF"""
+        await self.async_set_params({self.camera_parameters.crying_notification: state.value})
+
+    async def async_set_other_sound_notification_switch(self, state):
+        """Set the all sound notification to ON/OFF"""
+        await self.async_set_params({self.camera_parameters.all_sound_notification: state.value})
+
     async def async_start_stream(self) -> str:
         """Start the camera stream and return the RTSP URL."""
         start_resp = await self._api.request(
