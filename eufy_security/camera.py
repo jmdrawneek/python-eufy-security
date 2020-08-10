@@ -133,6 +133,12 @@ class Camera:
     async def async_turn_camera_on(self):
         await self.async_set_params({ParamType.OPEN_DEVICE: True})
 
+    async def async_set_detection_mode(self, mode):
+        await self.async_set_params({ParamType.DETECT_MODE: mode.value})
+
+    async def async_set_detection_sensitivity(self, sensitivity):
+        await self.async_set_params({ParamType.DETECT_SENSITIVITY: sensitivity.value})
+
     async def async_stop_stream(self) -> None:
         """Stop the camera stream."""
         await self._api.request(
