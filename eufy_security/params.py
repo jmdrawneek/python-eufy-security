@@ -31,6 +31,7 @@ class CameraParameters():
 
         self.video_quality = None
 
+        self.snoozed_at = None
         self.snooze_mode = None
 
     def read_value(self, param, value):

@@ -1,6 +1,7 @@
 """Define a Eufy camera object."""
 import logging
 from typing import TYPE_CHECKING
+import datetime
 
 from .cameras.indoor_cam import IndoorCamParameters
 from .params import ParamType, CameraParameters
@@ -171,6 +172,15 @@ class Camera:
     async def async_set_sound_detection_sensitivity(self, sensitivity):
         """Set sound detection sensitivity. use detection.SoundDetectionSensitivity"""
         await self.async_set_params({self.camera_parameters.sound_detection_sensitivity: sensitivity.value})
+
+    async def async_set_snooze_off(self):
+        """Turn notification snooze OFF"""
+        await self.async_set_params({self.camera_parameters.snooze_mode: None})
+
+    async def async_set_snooze_for(self, seconds_to_snooze):
+        """Turn snooze on for x seconds"""
+        await self.async_set_params({self.camera_parameters.snoozed_at: int(datetime.datetime.now().timestamp())})
+        await self.async_set_params({self.camera_parameters.snooze_mode: {"account_id": self._api.user_id, "snooze_time": seconds_to_snooze}})
 
     async def async_stop_stream(self) -> None:
         """Stop the camera stream."""

@@ -21,6 +21,7 @@ class API:  # pylint: disable=too-many-instance-attributes
         """Initialize."""
         self._api_base: str = API_BASE
         self._email: str = email
+        self._user_id: str = ""
         self._password: str = password
         self._retry_on_401: bool = False
         self._session: ClientSession = websession
@@ -37,6 +38,7 @@ class API:  # pylint: disable=too-many-instance-attributes
             json={"email": self._email, "password": self._password},
         )
 
+        self._user_id = auth_resp["data"]["user_id"]
         self._retry_on_401 = False
         self._token = auth_resp["data"]["auth_token"]
         self._token_expiration = datetime.fromtimestamp(
@@ -114,6 +116,10 @@ class API:  # pylint: disable=too-many-instance-attributes
                 raise RequestError(
                     f"There was an unknown error while requesting {endpoint}: {err}"
                 ) from None
+
+    @property
+    def user_id(self):
+        return self._user_id
 
 
 def _raise_on_error(data: dict) -> None:
