@@ -43,7 +43,7 @@ class IndoorCamParameters(CameraParameters):
         self.crying_notification = 6024
         self.all_sound_notification = 6025
         self.notification_interval = 1250
-
+        self.notification_content_extension = 6020
 
         self.snoozed_at = 2037
         self.snooze_mode = 1271

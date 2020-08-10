@@ -52,6 +52,7 @@ class CameraParameters():
         self.crying_notification = None
         self.all_sound_notification = None
         self.notification_interval = None
+        self.notification_content_extension = None
 
         self.snoozed_at = None
         self.snooze_mode = None

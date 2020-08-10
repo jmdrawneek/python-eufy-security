@@ -281,6 +281,10 @@ class Camera:
         """
         await self.async_set_params({self.camera_parameters.notification_interval: seconds})
 
+    async def async_set_notification_extension(self, type):
+        """Set the type of notification extensions to use"""
+        await self.async_set_params({self.camera_parameters.notification_content_extension: type.value})
+
     async def async_start_stream(self) -> str:
         """Start the camera stream and return the RTSP URL."""
         start_resp = await self._api.request(
