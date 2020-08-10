@@ -51,6 +51,7 @@ class CameraParameters():
         self.other_motion_notification = None
         self.crying_notification = None
         self.all_sound_notification = None
+        self.notification_interval = None
 
         self.snoozed_at = None
         self.snooze_mode = None

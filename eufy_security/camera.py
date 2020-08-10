@@ -274,6 +274,13 @@ class Camera:
         """Set the all sound notification to ON/OFF"""
         await self.async_set_params({self.camera_parameters.all_sound_notification: state.value})
 
+    async def async_set_notification_interval(self, seconds):
+        """Set the notification interval
+        The EufySecurity app shows the minimum section that was reached. e.g if you set 1m30s (90s) it will select the 1 minute option.
+        Anything greater than 5m shows as 5m, anything less than 1m shows as 0 in app.
+        """
+        await self.async_set_params({self.camera_parameters.notification_interval: seconds})
+
     async def async_start_stream(self) -> str:
         """Start the camera stream and return the RTSP URL."""
         start_resp = await self._api.request(
