@@ -2,10 +2,51 @@
 import base64
 from enum import Enum
 import json
+import abc
 
 """Device Types:
 30 - Indoor Camera 2k (non-pan-tilt)
+
+This class will represent parameter types for different cameras.
+
+To create a camera with customisable parameters, extend this class and override the values that can be changed
+on that device
 """
+
+class CameraParameters():
+    def __init__(self):
+        self.device_type = None
+
+        self.status_led = None
+        self.open_device = None
+
+        self.motion_detection_switch = None
+        self.motion_detection_type = None
+        self.motion_detection_sensitivity = None
+        self.motion_detection_zone = None
+
+        self.sound_detection_switch = None
+        self.sound_detection_type = None
+        self.sound_detection_sensitivity = None
+
+        self.video_quality = None
+
+        self.snooze_mode = None
+
+    def read_value(self, param, value):
+        """Read a parameter JSON string."""
+        if value:
+            if param == self.snooze_mode:
+                value = base64.b64decode(value, validate=True).decode()
+            return json.loads(value)
+        return None
+
+    def write_value(self, param, value):
+        """Write a parameter JSON string."""
+        value = json.dumps(value)
+        if param == self.snooze_mode:
+            value = base64.b64encode(value.encode()).decode()
+        return value
 
 
 class ParamType(Enum):
@@ -41,7 +82,7 @@ class ParamType(Enum):
     DOORBELL_MOTION_NOTIFICATION = 2035
     DOORBELL_NOTIFICATION_JUMP_MODE = 2038
     DOORBELL_NOTIFICATION_OPEN = 2036
-    DOORBELL_RECORD_QUALITY = 2034
+    DOORBELL_RECORD_QUALITY = 2034  #
     DOORBELL_RING_RECORD = 2040
     DOORBELL_SNOOZE_START_TIME = 2037
     DOORBELL_VIDEO_QUALITY = 2031

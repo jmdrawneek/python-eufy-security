@@ -2,12 +2,20 @@
 import logging
 from typing import TYPE_CHECKING
 
-from .params import ParamType
+from .cameras.indoor_cam import IndoorCamParameters
+from .params import ParamType, CameraParameters
 
 if TYPE_CHECKING:
     from .api import API  # pylint: disable=cyclic-import
 
 _LOGGER: logging.Logger = logging.getLogger(__name__)
+
+
+def get_camera_params_from_device_type(device_type):
+    if device_type == 30:
+        return IndoorCamParameters()
+
+    return CameraParameters()
 
 
 class Camera:
@@ -17,6 +25,7 @@ class Camera:
         """Initialize."""
         self._api = api
         self.camera_info: dict = camera_info
+        self.camera_parameters = get_camera_params_from_device_type(camera_info['device_type'])
 
     @property
     def hardware_version(self) -> str:
@@ -55,13 +64,17 @@ class Camera:
         for param in self.camera_info["params"]:
             param_type = param["param_type"]
             value = param["param_value"]
+
             try:
-                param_type = ParamType(param_type)
-                value = param_type.read_value(value)
-            except ValueError:
-                _LOGGER.debug(
-                    'Unable to process parameter "%s", value "%s"', param_type, value
-                )
+                for param_name in self.camera_parameters.__dict__.keys():
+                    param_value = self.camera_parameters.__dict__.get(param_name)
+
+                    if param_value == param_type:
+                        param_type = param_name
+                        value = self.camera_parameters.read_value(param_value, value)
+            except ValueError as e:
+                _LOGGER.debug('Unable to process parameter "%s", value "%s"', param_type, value)
+
             params[param_type] = value
         return params
 
@@ -84,9 +97,7 @@ class Camera:
         """Set camera parameters."""
         serialized_params = []
         for param_type, value in params.items():
-            if isinstance(param_type, ParamType):
-                value = param_type.write_value(value)
-                param_type = param_type.value
+            value = self.camera_parameters.write_value(param_type, value)
             serialized_params.append({"param_type": param_type, "param_value": value})
         await self._api.request(
             "post",
@@ -115,51 +126,51 @@ class Camera:
 
     async def async_status_led_on(self):
         """Turn Status LED ON"""
-        await self.async_set_params({ParamType.STATUS_LED: 1})
+        await self.async_set_params({self.camera_parameters.status_led: 1})
 
     async def async_status_led_off(self):
         """Turn Status LED OFF"""
-        await self.async_set_params({ParamType.STATUS_LED: 0})
+        await self.async_set_params({self.camera_parameters.status_led: 0})
 
     async def async_turn_camera_off(self):
         """Turn Camera OFF"""
-        await self.async_set_params({ParamType.OPEN_DEVICE: False})
+        await self.async_set_params({self.camera_parameters.open_device: False})
 
     async def async_turn_camera_on(self):
         """Turn Camera ON"""
-        await self.async_set_params({ParamType.OPEN_DEVICE: True})
+        await self.async_set_params({self.camera_parameters.open_device: True})
 
     async def async_start_motion_detection(self):
         """Turn camera's motion detection ON."""
-        await self.async_set_params({ParamType.DETECT_SWITCH: 1})
+        await self.async_set_params({self.camera_parameters.motion_detection_switch: 1})
 
     async def async_stop_motion_detection(self):
         """Turn camera's motion detection OFF."""
-        await self.async_set_params({ParamType.DETECT_SWITCH: 0})
+        await self.async_set_params({self.camera_parameters.motion_detection_switch: 0})
 
     async def async_set_motion_detection_mode(self, mode):
         """Set motion detection mode. use detection.MotionDetectionMode"""
-        await self.async_set_params({ParamType.DETECT_MODE: mode.value})
+        await self.async_set_params({self.camera_parameters.motion_detection_type: mode.value})
 
     async def async_set_motion_detection_sensitivity(self, sensitivity):
         """Set motion detection sensitivity. use detection.MotionDetectionSensitivity"""
-        await self.async_set_params({ParamType.DETECT_SENSITIVITY: sensitivity.value})
+        await self.async_set_params({self.camera_parameters.motion_detection_sensitivity: sensitivity.value})
 
     async def async_start_sound_detection(self):
         """Turn camera's sound detection ON"""
-        await self.async_set_params({ParamType.SOUND_SWITCH: 1})
+        await self.async_set_params({self.camera_parameters.sound_detection_switch: 1})
 
     async def async_stop_sound_detection(self):
         """Turn camera's sound detection OFF"""
-        await self.async_set_params({ParamType.SOUND_SWITCH: 0})
+        await self.async_set_params({self.camera_parameters.sound_detection_switch: 0})
 
     async def async_set_sound_detection_mode(self, mode):
         """Set sound detection mode. use detection.SoundDetectionMode"""
-        await self.async_set_params({ParamType.SOUND_TYPE: mode.value})
+        await self.async_set_params({self.camera_parameters.sound_detection_type: mode.value})
 
     async def async_set_sound_detection_sensitivity(self, sensitivity):
         """Set sound detection sensitivity. use detection.SoundDetectionSensitivity"""
-        await self.async_set_params({ParamType.SOUND_SENSITIVITY: sensitivity.value})
+        await self.async_set_params({self.camera_parameters.sound_detection_sensitivity: sensitivity.value})
 
     async def async_stop_stream(self) -> None:
         """Stop the camera stream."""
