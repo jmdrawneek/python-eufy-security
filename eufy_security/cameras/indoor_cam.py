@@ -34,5 +34,7 @@ class IndoorCamParameters(CameraParameters):
         self.pet_command = 6047
         self.pet_command_auto_respond = 6049
 
+        self.activity_zones = 6042
+
         self.snoozed_at = 2037
         self.snooze_mode = 1271

@@ -43,6 +43,8 @@ class CameraParameters():
         self.pet_command = None
         self.pet_command_auto_respond = None
 
+        self.activity_zones = None
+
         self.snoozed_at = None
         self.snooze_mode = None
 

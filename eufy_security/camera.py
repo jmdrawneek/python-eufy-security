@@ -242,6 +242,28 @@ class Camera:
         """Set the Pet Command auto respond, not sure yet how to GET the values that you set in the EufySecurity app"""
         await self.async_set_params({self.camera_parameters.pet_command_auto_respond: value})
 
+    async def async_remove_all_activity_zones(self):
+        """Remove all activity zones from camera"""
+        await self.async_set_params({self.camera_parameters.activity_zones: {"polygens":[], "zonecount": 0}})
+
+    async def async_set_activity_zones(self, activity_zones):
+        """Set the activity zones to that sent in the parameter
+        Not much we can do for user input so that should be handled by the program using this API.
+        sample data json:
+        {"polygens":[
+            {"isDetectZone":true,
+            "isEditable":false,
+            "isSaved":true,
+            "points":[
+                {"x":293,"y":110},{"x":419,"y":110},{"x":482,"y":218},{"x":419,"y":326},{"x":293,"y":326},{"x":230,"y":218}
+            ]}
+        ]
+        ,"zonecount":1}
+
+        on my indoor cam 2k, oneplus 6t, the zones coords went y:0-432, x:0-768, we need to check if they're universal
+        """
+        await self.async_set_params({self.camera_parameters.activity_zones: activity_zones})
+
     async def async_stop_stream(self) -> None:
         """Stop the camera stream."""
         await self._api.request(
