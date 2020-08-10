@@ -44,6 +44,11 @@ class Camera:
         return self.camera_info["device_name"]
 
     @property
+    def device_type(self) -> int:
+        """Return the camera's device type"""
+        return self.camera_info["device_type"]
+
+    @property
     def params(self) -> dict:
         """Return camera parameters."""
         params = {}
@@ -115,6 +120,18 @@ class Camera:
     async def async_stop_detection(self):
         """Stop camera detection."""
         await self.async_set_params({ParamType.DETECT_SWITCH: 0})
+
+    async def async_status_led_on(self):
+        await self.async_set_params({ParamType.STATUS_LED: 1})
+
+    async def async_status_led_off(self):
+        await self.async_set_params({ParamType.STATUS_LED: 0})
+
+    async def async_turn_camera_off(self):
+        await self.async_set_params({ParamType.OPEN_DEVICE: False})
+
+    async def async_turn_camera_on(self):
+        await self.async_set_params({ParamType.OPEN_DEVICE: True})
 
     async def async_stop_stream(self) -> None:
         """Stop the camera stream."""

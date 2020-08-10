@@ -3,6 +3,9 @@ import base64
 from enum import Enum
 import json
 
+"""Device Types:
+30 - Indoor Camera 2k (non-pan-tilt)
+"""
 
 class ParamType(Enum):
     """Define the types.
@@ -10,12 +13,17 @@ class ParamType(Enum):
     List retrieved from from com.oceanwing.battery.cam.binder.model.CameraParams
     """
 
+    STATUS_LED = 6014
+
     CHIME_STATE = 2015
     DETECT_EXPOSURE = 2023
-    DETECT_MODE = 2004
+    #DETECT_MODE = 2004
+    DETECT_MODE = 6045  # PERSON/PET/OTHER   Look at DetectionMode enum in detection.py
     DETECT_MOTION_SENSITIVE = 2005
     DETECT_SCENARIO = 2028
-    DETECT_SWITCH = 2027
+    DETECT_SENSITIVITY = 6041  # Sensitivity slider (Lowest-Highest)  Look at DetectionSensitivity enum in detection.py
+    #DETECT_SWITCH = 2027
+    DETECT_SWITCH = 6040  # Turn ON/OFF
     DETECT_ZONE = 2006
     DOORBELL_AUDIO_RECODE = 2042
     DOORBELL_BRIGHTNESS = 2032
