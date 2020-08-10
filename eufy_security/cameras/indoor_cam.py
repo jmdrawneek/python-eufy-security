@@ -28,5 +28,8 @@ class IndoorCamParameters(CameraParameters):
         self.speaker_switch = 1241
         self.speaker_volume = 1230
 
+        self.continuous_recording_switch = 6010
+        self.continuous_recording_type = 6011
+
         self.snoozed_at = 2037
         self.snooze_mode = 1271

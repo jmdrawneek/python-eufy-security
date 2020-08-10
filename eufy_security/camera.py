@@ -218,6 +218,18 @@ class Camera:
         """Set the volume of the device speaker"""
         await self.async_set_params({self.camera_parameters.speaker_volume: volume})
 
+    async def async_set_continuous_recording_on(self):
+        """Turn continuous recording ON"""
+        await self.async_set_params({self.camera_parameters.continuous_recording_switch: 1})
+
+    async def async_set_continuous_recording_off(self):
+        """Turn continuous recording OFF"""
+        await self.async_set_params({self.camera_parameters.continuous_recording_switch: 0})
+
+    async def async_set_continuous_recording_type(self, recording_type):
+        """Set the type of continuous recording"""
+        await self.async_set_params({self.camera_parameters.continuous_recording_type: recording_type.value})
+
     async def async_stop_stream(self) -> None:
         """Stop the camera stream."""
         await self._api.request(

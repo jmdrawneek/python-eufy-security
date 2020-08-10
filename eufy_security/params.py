@@ -37,6 +37,9 @@ class CameraParameters():
         self.speaker_switch = None
         self.speaker_volume = None
 
+        self.continuous_recording_switch = None
+        self.continuous_recording_type = None
+
         self.snoozed_at = None
         self.snooze_mode = None
 
