@@ -99,10 +99,6 @@ class Camera:
         )
         await self.async_update()
 
-    async def async_start_detection(self):
-        """Start camera detection."""
-        await self.async_set_params({ParamType.DETECT_SWITCH: 1})
-
     async def async_start_stream(self) -> str:
         """Start the camera stream and return the RTSP URL."""
         start_resp = await self._api.request(
@@ -117,27 +113,53 @@ class Camera:
 
         return start_resp["data"]["url"]
 
-    async def async_stop_detection(self):
-        """Stop camera detection."""
-        await self.async_set_params({ParamType.DETECT_SWITCH: 0})
-
     async def async_status_led_on(self):
+        """Turn Status LED ON"""
         await self.async_set_params({ParamType.STATUS_LED: 1})
 
     async def async_status_led_off(self):
+        """Turn Status LED OFF"""
         await self.async_set_params({ParamType.STATUS_LED: 0})
 
     async def async_turn_camera_off(self):
+        """Turn Camera OFF"""
         await self.async_set_params({ParamType.OPEN_DEVICE: False})
 
     async def async_turn_camera_on(self):
+        """Turn Camera ON"""
         await self.async_set_params({ParamType.OPEN_DEVICE: True})
 
-    async def async_set_detection_mode(self, mode):
+    async def async_start_motion_detection(self):
+        """Turn camera's motion detection ON."""
+        await self.async_set_params({ParamType.DETECT_SWITCH: 1})
+
+    async def async_stop_motion_detection(self):
+        """Turn camera's motion detection OFF."""
+        await self.async_set_params({ParamType.DETECT_SWITCH: 0})
+
+    async def async_set_motion_detection_mode(self, mode):
+        """Set motion detection mode. use detection.MotionDetectionMode"""
         await self.async_set_params({ParamType.DETECT_MODE: mode.value})
 
-    async def async_set_detection_sensitivity(self, sensitivity):
+    async def async_set_motion_detection_sensitivity(self, sensitivity):
+        """Set motion detection sensitivity. use detection.MotionDetectionSensitivity"""
         await self.async_set_params({ParamType.DETECT_SENSITIVITY: sensitivity.value})
+
+    async def async_start_sound_detection(self):
+        """Turn camera's sound detection ON"""
+        await self.async_set_params({ParamType.SOUND_SWITCH: 1})
+
+    async def async_stop_sound_detection(self):
+        """Turn camera's sound detection OFF"""
+        await self.async_set_params({ParamType.SOUND_SWITCH: 0})
+
+    async def async_set_sound_detection_mode(self, mode):
+        """Set sound detection mode. use detection.SoundDetectionMode"""
+        await self.async_set_params({ParamType.SOUND_TYPE: mode.value})
+
+    async def async_set_sound_detection_sensitivity(self, sensitivity):
+        """Set sound detection sensitivity. use detection.SoundDetectionSensitivity"""
+        await self.async_set_params({ParamType.SOUND_SENSITIVITY: sensitivity.value})
 
     async def async_stop_stream(self) -> None:
         """Stop the camera stream."""

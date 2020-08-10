@@ -7,6 +7,7 @@ import json
 30 - Indoor Camera 2k (non-pan-tilt)
 """
 
+
 class ParamType(Enum):
     """Define the types.
 
@@ -17,14 +18,19 @@ class ParamType(Enum):
 
     CHIME_STATE = 2015
     DETECT_EXPOSURE = 2023
-    #DETECT_MODE = 2004
-    DETECT_MODE = 6045  # PERSON/PET/OTHER   Look at DetectionMode enum in detection.py
+    # DETECT_MODE = 2004
+    DETECT_MODE = 6045  # PERSON/PET/OTHER. See MotionDetectionMode in detection.py
     DETECT_MOTION_SENSITIVE = 2005
     DETECT_SCENARIO = 2028
-    DETECT_SENSITIVITY = 6041  # Sensitivity slider (Lowest-Highest)  Look at DetectionSensitivity enum in detection.py
-    #DETECT_SWITCH = 2027
+    DETECT_SENSITIVITY = 6041  # Sensitivity slider (Lowest-Highest). See MotionDetectionSensitivity in detection.py
+    # DETECT_SWITCH = 2027
     DETECT_SWITCH = 6040  # Turn ON/OFF
     DETECT_ZONE = 2006
+
+    SOUND_SWITCH = 6043  # Turn ON/OFF (0 or 1)
+    SOUND_SENSITIVITY = 6044  # see SoundDetectionSensitivity in detection.py
+    SOUND_TYPE = 6046  # see SoundDetectionMode in detection.py
+
     DOORBELL_AUDIO_RECODE = 2042
     DOORBELL_BRIGHTNESS = 2032
     DOORBELL_DISTORTION = 2033
