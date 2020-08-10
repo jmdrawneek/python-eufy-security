@@ -54,6 +54,10 @@ class CameraParameters():
         self.notification_interval = None
         self.notification_content_extension = None
 
+        self.rotate_image_180 = None
+
+        self.time_format = None ##Right now both 24 and 12 return the same value, 0
+
         self.snoozed_at = None
         self.snooze_mode = None
 

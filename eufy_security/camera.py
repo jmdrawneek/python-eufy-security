@@ -285,6 +285,10 @@ class Camera:
         """Set the type of notification extensions to use"""
         await self.async_set_params({self.camera_parameters.notification_content_extension: type.value})
 
+    async def async_set_rotate_image_180(self, state):
+        """Set whether to rotate the image 180 or not"""
+        await self.async_set_params({self.camera_parameters.rotate_image_180: state.value})
+
     async def async_start_stream(self) -> str:
         """Start the camera stream and return the RTSP URL."""
         start_resp = await self._api.request(
