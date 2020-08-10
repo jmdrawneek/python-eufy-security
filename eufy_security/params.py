@@ -20,6 +20,7 @@ class CameraParameters():
         self.status_led = None
         self.open_device = None
         self.watermark = None
+        self.auto_night_vision = None
 
         self.motion_detection_switch = None
         self.motion_detection_type = None

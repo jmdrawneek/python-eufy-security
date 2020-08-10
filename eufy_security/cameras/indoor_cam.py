@@ -12,6 +12,7 @@ class IndoorCamParameters(CameraParameters):
         self.status_led = 6014
         self.open_device = 2001
         self.watermark = 1214
+        self.auto_night_vision = 2002
 
         self.motion_detection_switch = 6040
         self.motion_detection_type = 6045
