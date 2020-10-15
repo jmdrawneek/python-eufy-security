@@ -3,8 +3,9 @@ import logging
 from typing import TYPE_CHECKING
 import datetime
 
-from .cameras.indoor_cam import IndoorCamParameters
-from .params import ParamType, CameraParameters
+from eufy_security.cameras.indoor.indoor_cam_params import IndoorCamParameters, PanAndTiltIndoorCamParameters
+from eufy_security.cameras.doorbell.doorbell_params import DoorbellParameters
+from .params import CameraParameters
 
 if TYPE_CHECKING:
     from .api import API  # pylint: disable=cyclic-import
@@ -15,6 +16,10 @@ _LOGGER: logging.Logger = logging.getLogger(__name__)
 def get_camera_params_from_device_type(device_type):
     if device_type == 30:
         return IndoorCamParameters()
+    elif device_type == 31:
+        return PanAndTiltIndoorCamParameters()
+    if device_type == 7:
+        return DoorbellParameters()
 
     return CameraParameters()
 
@@ -62,21 +67,24 @@ class Camera:
     def params(self) -> dict:
         """Return camera parameters."""
         params = {}
-        for param in self.camera_info["params"]:
-            param_type = param["param_type"]
-            value = param["param_value"]
+        for raw_param in self.camera_info["params"]:
+            raw_param_key = raw_param["param_type"]
+            raw_param_value = raw_param["param_value"]
 
             try:
                 for param_name in self.camera_parameters.__dict__.keys():
-                    param_value = self.camera_parameters.__dict__.get(param_name)
+                    param_raw_key = self.camera_parameters.__dict__.get(param_name)
 
-                    if param_value == param_type:
-                        param_type = param_name
-                        value = self.camera_parameters.read_value(param_value, value)
+                    if raw_param_key == param_raw_key:
+                        raw_param_key = param_name
+                        raw_param_value = self.camera_parameters.read_value(raw_param_value)
+
+                        params[raw_param_key] = raw_param_value
+
             except ValueError as e:
-                _LOGGER.debug('Unable to process parameter "%s", value "%s"', param_type, value)
+                _LOGGER.debug('Unable to process parameter "%s", value "%s"', raw_param_key, raw_param_value)
 
-            params[param_type] = value
+            # enums[raw_param_key] = raw_param_value
         return params
 
     @property

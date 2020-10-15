@@ -1,5 +1,3 @@
-from abc import ABC
-
 from eufy_security.params import CameraParameters
 
 
@@ -10,6 +8,7 @@ class IndoorCamParameters(CameraParameters):
         self.device_type = 30
 
         self.status_led = 6014
+        # self.status_led = CameraParameter(6014, IndoorCamParameters.Switch)
         self.open_device = 2001
         self.watermark = 1214
         self.auto_night_vision = 2002
@@ -48,7 +47,15 @@ class IndoorCamParameters(CameraParameters):
 
         self.rotate_image_180 = 1207
 
-        self.time_format = 1146
+        self.time_format = 1146 ##Right now both 24 and 12 return the same value, 0
 
         self.snoozed_at = 2037
         self.snooze_mode = 1271
+
+
+class PanAndTiltIndoorCamParameters(IndoorCamParameters):
+    def __init__(self):
+        super().__init__()
+
+        self.rotation_speed = 6015
+        self.motion_tracking = 6016

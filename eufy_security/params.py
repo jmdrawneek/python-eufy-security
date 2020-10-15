@@ -6,6 +6,7 @@ import abc
 
 """Device Types:
 30 - Indoor Camera 2k (non-pan-tilt)
+7 - Wireless doorbell 2k
 
 This class will represent parameter types for different cameras.
 
@@ -13,68 +14,23 @@ To create a camera with customisable parameters, extend this class and override 
 on that device
 """
 
-class CameraParameters():
+
+def isBase64(s):
+    try:
+        return base64.b64encode(base64.b64decode(s)).decode() == s
+    except Exception:
+        return False
+
+
+class CameraParameters:
     def __init__(self):
-        self.device_type = None
+        pass
 
-        self.status_led = None
-        self.open_device = None
-        self.watermark = None
-        self.auto_night_vision = None
-
-        self.motion_detection_switch = None
-        self.motion_detection_type = None
-        self.motion_detection_sensitivity = None
-        self.motion_detection_zone = None
-
-        self.sound_detection_switch = None
-        self.sound_detection_type = None
-        self.sound_detection_sensitivity = None
-
-        self.recording_quality = None
-        self.stream_quality = None
-
-        self.microphone_switch = None
-        self.audio_recording = None
-        self.speaker_switch = None
-        self.speaker_volume = None
-
-        self.continuous_recording_switch = None
-        self.continuous_recording_type = None
-
-        self.pet_command = None
-        self.pet_command_auto_respond = None
-
-        self.activity_zones = None
-
-        self.person_notification = None
-        self.pet_notification = None
-        self.other_motion_notification = None
-        self.crying_notification = None
-        self.all_sound_notification = None
-        self.notification_interval = None
-        self.notification_content_extension = None
-
-        self.rotate_image_180 = None
-
-        self.time_format = None ##Right now both 24 and 12 return the same value, 0
-
-        self.snoozed_at = None
-        self.snooze_mode = None
-
-    def read_value(self, param, value):
+    def read_value(self, value):
         """Read a parameter JSON string."""
-        if value:
-            if param == self.snooze_mode:
-                value = base64.b64decode(value, validate=True).decode()
-            return json.loads(value)
-        return None
+        if isBase64(value):
+            value = base64.b64decode(value, validate=True).decode()
 
-    def write_value(self, param, value):
-        """Write a parameter JSON string."""
-        value = json.dumps(value)
-        if param == self.snooze_mode:
-            value = base64.b64encode(value.encode()).decode()
         return value
 
 
@@ -128,7 +84,7 @@ class ParamType(Enum):
     DEVICE_UPGRADE_NOW = 1134
     CAMERA_UPGRADE_NOW = 1133
 
-    # Set only params?
+    # Set only enums?
     PUSH_MSG_MODE = 1252  # 0 to ???
 
     def read_value(self, value):
